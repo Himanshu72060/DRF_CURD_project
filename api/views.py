@@ -23,6 +23,15 @@ def todo_all(request, pk=None):
         return Response(serializer.data)
 
     # POST Data
+    if request.method == 'POST':
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg': 'Data Created'})
+        return Response(serializer.errors)
+
+    # PUT Data
+    if request.method == 'PUT':
         # id = request.data.get('id')
         id = pk
         stu = FirstTodo.objects.get(pk=id)
